@@ -90,15 +90,18 @@
                 <p class="text-warning">
                     注意 : GPSの情報が上手く取れなかった場合、リロードするか「最初から遊ぶ」
                     を選択してください。
+                    2023年追記 : userAgentの仕様変更によりGPS機能を制限しております。ご了承ください。
                 </p>
                 
           <br>
           <br>
-                
+                <!--
                 つよさを1000伸ばすボタン<br>
                 <button onclick="debug1()">デバッグ1</button><br><br>
                 エンディングへのショートカット<br>
                 <button onclick="debug2()">デバッグ2</button><br><br>
+                -->
+                
                 
                 <button onclick="show_info()">GPS情報</button><br><br>
 
@@ -214,6 +217,7 @@
                 isEnd = true;
             }
 
+            isEnd = false;
             if(isEnd == true){
                 $("#t1").text("Fin.");
                 $("#t2").text("");
@@ -308,8 +312,8 @@
 
         function test2(position) {
             
-            var diff_latitude = position.coords.latitude-pre_latitude;
-            var diff_longitude = position.coords.longitude-pre_longitude;
+            var diff_latitude = parseInt(position.coords.latitude-pre_latitude);
+            var diff_longitude = parseInt(position.coords.longitude-pre_longitude);
 
             var geo_text = "GPS情報\n";
             geo_text += "緯度:" + position.coords.latitude + "\n";
@@ -324,11 +328,20 @@
             pre_latitude = position.coords.latitude;
             pre_longitude = position.coords.longitude;
 
-            var diff_distance = Math.sqrt(Math.pow(diff_latitude, 2)  + Math.pow(diff_longitude ,2)) * Math.pow(10, 5);
+            var diff_distance = diff_latitude; //  Math.sqrt(Math.pow(diff_latitude, 2)  + Math.pow(diff_longitude ,2)) * Math.pow(10, 5);
             
-            //plus_exp = parseInt(10 * 1/diff_distance); 
-            plus_exp = parseInt(10); 
+            //userAgentの機能制限により値の取得が上手くいってないみたい
+            var distance = 2;
 
+            if(distance > 1000)
+            {
+                distance = 1000;
+            }
+
+            plus_exp = parseInt(10 * distance); 
+            //plus_exp = parseInt(10); 
+
+            
             if(plus_exp > 10000){
                 plus_exp = 10000;
             }
