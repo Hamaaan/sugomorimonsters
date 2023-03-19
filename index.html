@@ -325,8 +325,10 @@
             pre_longitude = position.coords.longitude;
 
             var diff_distance = Math.sqrt(Math.pow(diff_latitude, 2)  + Math.pow(diff_longitude ,2)) * Math.pow(10, 5);
+            
+            //plus_exp = parseInt(10 * 1/diff_distance); 
+            plus_exp = parseInt(10); 
 
-            plus_exp = parseInt(10 * 1/diff_distance); 
             if(plus_exp > 10000){
                 plus_exp = 10000;
             }
